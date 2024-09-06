@@ -1,0 +1,55 @@
+<!-- File: src/main/resources/templates/books.html -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bookstore - Search Books</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .book-card {
+            height: 400px; /* Set a fixed height for each card */
+        }
+
+        .book-card img {
+            max-width: 100px; /* Adjust the width of the image */
+            max-height: 150px; /* Adjust the height of the image */
+            object-fit: cover; /* Ensure the aspect ratio is maintained */
+            margin-bottom: 10px; /* Add some space below the image */
+        }
+
+        .book-details {
+            height: calc(100% - 170px); /* Adjust based on the size of the image and padding */
+            overflow-y: auto; /* Add vertical scrolling */
+        }
+
+        .description {
+            max-height: 80px; /* Set max height for the description area */
+            overflow-y: auto; /* Enable vertical scrolling for long descriptions */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Book Library</h1>
+
+    <!-- Search Form -->
+    <form th:action="@{/books/search}" method="get" class="flex justify-center mb-8">
+        <input type="text" class="border border-gray-300 p-2 w-1/2 rounded-l-md" name="query" placeholder="Search for a book..." required>
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded-r-md hover:bg-blue-600">Search</button>
+    </form>
+
+    <!-- Books Display Section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="book-card bg-white p-4 rounded-lg shadow-md flex flex-col items-center" th:each="book : ${books}">
+            <img th:src="${book.thumbnail}" alt="Book Cover" class="rounded-lg shadow-md">
+            <div class="book-details flex flex-col justify-between mt-4">
+                <h5 class="text-xl font-semibold text-gray-900" th:text="${book.title}"></h5>
+                <p class="text-gray-700"><strong>Author:</strong> <span th:text="${book.authors}"></span></p>
+                <p class="description text-gray-600 mt-2" th:text="${book.description}"></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
